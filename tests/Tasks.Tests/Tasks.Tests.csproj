@@ -34,6 +34,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Tasks\MathCalculations\Tasks.MathCalculations.csproj" />
     <ProjectReference Include="..\..\src\Tasks\BronzeDigitsCount\Tasks.BronzeDigitsCount.csproj" />
+    <ProjectReference Include="..\..\src\Tasks\FlatCount\Tasks.FlatCount.csproj" />
   </ItemGroup>
 
 </Project>
