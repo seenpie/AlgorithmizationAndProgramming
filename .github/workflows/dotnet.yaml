@@ -3,16 +3,18 @@ name: .NET Build and Test
 
 # Триггеры: когда запускать этот процесс.
 on:
-  # Запускать при каждом push в ветку main
+  # Запускать при каждом push в любую ветку, кроме main.
   push:
-    branches: [ "main" ]
-  # Запускать при создании Pull Request, который нацелен на ветку main
+    branches-ignore:
+      - 'main'
+  
+  # Также запускать для Pull Request'ов, нацеленных на ветку main.
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - 'main'
 
 # Задачи: что именно нужно сделать.
 jobs:
-  # Мы определяем одну задачу с названием build-and-test
   build-and-test:
     # На какой операционной системе запускать. ubuntu-latest - быстрый и бесплатный.
     runs-on: ubuntu-latest
@@ -28,18 +30,17 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         # Укажите здесь вашу версию .NET. Например, '8.0.x' или '7.0.x'
-        dotnet-version: '9.0.x'
+        dotnet-version: '8.0.x'
 
     # 3. Восстановление зависимостей (NuGet пакетов) для всего решения
     - name: Restore dependencies
       run: dotnet restore
 
     # 4. Сборка всего решения в режиме Release.
-    # Флаг --no-restore говорит не восстанавливать пакеты снова, т.к. мы это сделали на прошлом шаге.
     - name: Build
       run: dotnet build --no-restore --configuration Release
 
     # 5. Запуск всех тестов в решении.
-    # Флаг --no-build говорит не собирать проект заново.
+    #    Используем ту же конфигурацию, что и при сборке.
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --no-build --configuration Release --verbosity normal
