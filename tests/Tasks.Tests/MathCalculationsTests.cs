@@ -8,6 +8,7 @@ namespace Tasks.Tests
         public static IEnumerable<object[]> GetSolutions()
         {
             yield return new object[] { new Tasks.MathCalculations.MathCalculations() };
+            yield return new object[] { new Tasks.MathCalculations.MathCalculationsAlternative() };
         }
 
         [Theory]
