@@ -33,40 +33,83 @@
 Допустим, вы хотите добавить `MathCalculationsAlternative` к задаче `MathCalculations`.
 
 1.  **Создайте новый класс**: В проекте `src/Tasks/MathCalculations` создайте новый файл `MathCalculationsAlternative.cs`.
+
 2.  **Реализуйте интерфейс**: Класс должен реализовывать тот же интерфейс, что и основное решение (например, `IMathCalculationSolution`). Это обеспечит наличие методов `Run()` и `Calculate()`.
+
 3.  **Добавьте в тесты**: Откройте тестовый файл `tests/Tasks.Tests/MathCalculationsTests.cs`. Найдите метод `GetSolutions()` и добавьте в него экземпляр вашего нового класса:
-    ```csharp
-    public static IEnumerable<object[]> GetSolutions()
-    {
-        yield return new object[] { new MathCalculations() };
-        // Добавляем новую строку
-        yield return new object[] { new MathCalculationsAlternative() };
-    }
-    ```
-    4.  **Готово!** `Runner` автоматически найдет ваше новое решение. А при запуске `dotnet test` все существующие тесты будут выполнены и для вашей новой реализации.
+        ```csharp
+        public static IEnumerable<object[]> GetSolutions()
+        {
+            yield return new object[] { new MathCalculations() };
+            // Добавляем новую строку
+            yield return new object[] { new MathCalculationsAlternative() };
+        }
+        ```
+
+4.  **Готово!** `Runner` автоматически найдет ваше новое решение. А при запуске `dotnet test` все существующие тесты будут выполнены и для вашей новой реализации.
 
 ### 2. Как добавить новую ЗАДАЧУ
+
+**Рекомендуемый способ: используйте скрипт `makeTask.sh`**
+
+Просто запустите `./makeTask.sh --name НазваниеЗадачи` из корневой директории проекта, и скрипт автоматически создаст всю необходимую структуру файлов и обновит проект.
+
+Например:
+```
+./makeTask.sh --name StringReversal
+```
+
+<details>
+<summary>Как работает скрипт под капотом</summary>
+
+Скрипт автоматически:
+1. Создает директорию `src/Tasks/НазваниеЗадачи`
+2. Генерирует файлы: интерфейс `IНазваниеЗадачиSolution.cs`, класс `НазваниеЗадачи.cs`, проектный файл `Tasks.НазваниеЗадачи.csproj`
+3. Создает файл тестов `tests/Tasks.Tests/НазваниеЗадачиTests.cs`
+4. Добавляет ссылки в `Tasks.Tests.csproj`
+5. Обновляет файл решения `Tasks.sln` с новыми проектами и их конфигурациями
+
+</details>
+
+**Ручной способ (без скрипта)**
+
+<details>
+<summary>инструкции по ручному добавлению задачи</summary>
 
 Допустим, вы хотите добавить задачу `StringReversal`.
 
 1.  **Создайте проект**: В терминале, из корневой папки, выполните:
-    `dotnet new classlib -n Tasks.StringReversal -o src/Tasks/StringReversal2`.  
-    **Добавьте в решение и настройте ссылки**:
-    # Добавляем проект в .sln
-    dotnet sln add src/Tasks/StringReversal/Tasks.StringReversal.csproj
-    # Runner должен "видеть" новый проект
-    dotnet add src/Runner/Runner.csproj reference src/Tasks/StringReversal/Tasks.StringReversal.csproj
-    # Новый проект должен "видеть" Tasks.Common
-    dotnet add src/Tasks/StringReversal/Tasks.StringReversal.csproj reference src/Tasks.Common/Tasks.Common.csproj.  **Создайте интерфейсы и классы**: Внутри `src/Tasks/StringReversal` создайте:
+    `dotnet new classlib -n Tasks.StringReversal -o src/Tasks/StringReversal2`
+
+2. **Добавьте в решение и настройте ссылки**:
+    `dotnet sln add src/Tasks/StringReversal/Tasks.StringReversal.csproj`
+
+3. **Runner должен "видеть" новый проект**:
+    `dotnet add src/Runner/Runner.csproj reference src/Tasks/StringReversal/Tasks.StringReversal.csproj`
+
+4. **Новый проект должен "видеть" Tasks.Common**
+    `dotnet add src/Tasks/StringReversal/Tasks.StringReversal.csproj reference src/Tasks.Common/Tasks.Common.csproj`
+
+5. **Создайте интерфейсы и классы**:
+    Внутри `src/Tasks/StringReversal` создайте:
     *   Интерфейс `IStringReversalSolution : ISolution` с методом `string Reverse(string input)`.
     *   Класс `IterativeSolution : IStringReversalSolution`, реализующий этот интерфейс.
-4.  **Добавьте тесты** (см. следующий пункт).
+
+</details>
 
 ### 3. Как добавить ТЕСТЫ для новой ЗАДАЧИ
 
+**При использовании скрипта `makeTask.sh` файл тестов создается автоматически.**
+
+<details>
+<summary>Инструкции по ручному добавлению тестов</summary>
+
 1.  **Добавьте ссылку**: Свяжите тестовый проект с вашим новым проектом задачи.
-    dotnet add tests/Tasks.Tests/Tasks.Tests.csproj reference src/Tasks/StringReversal/Tasks.StringReversal.csproj2.  **Создайте тестовый файл**: В `tests/Tasks.Tests` создайте файл `StringReversalTests.cs`.
+    dotnet add tests/Tasks.Tests/Tasks.Tests.csproj reference src/Tasks/StringReversal/Tasks.StringReversal.csproj
+2.  **Создайте тестовый файл**: В `tests/Tasks.Tests` создайте файл `StringReversalTests.cs`.
 3.  **Напишите параметризованный тест**: Используйте `[Theory]` и `[MemberData]` по аналогии с `MathCalculationsTests.cs`, чтобы ваши тесты могли работать со всеми будущими решениями этой задачи.
+
+</details>
 
 ---
 
@@ -85,39 +128,34 @@
 4.  Убедитесь, что вы соблюдаете все правила системы.
 
 ### Пример готового файла `Program.cs` для сдачи задачи `MathCalculations`
-sharp
+```csharp
 // Правило 1: Убедитесь, что using System на месте
 using System;
 
-// Правило 2: Код должен быть внутри пространства имен и класса
-```csharp
-namespace SoloSubmission
+class Program
 {
-    class Program
+    // Правило 2: Вся логика должна быть в статическом методе Main
+    static void Main(string[] args)
     {
-        // Правило 3: Вся логика должна быть в статическом методе Main
-        static void Main(string[] args)
+        // Правило 3: УДАЛИТЬ все приглашения к вводу, типа Console.Write("Введите а:")
+        // Система подает данные на вход автоматически.
+        string input = Console.ReadLine();
+        double a = double.Parse(input);
+
+        // Это чистая логика, скопированная из вашего метода Calculate()
+        double expression = (2 * a + Math.Sin(Math.Abs(3 * a))) / 3.56;
+
+        if (expression < 0)
         {
-            // Правило 4: УДАЛИТЬ все приглашения к вводу, типа Console.Write("Введите а:")
-            // Система подает данные на вход автоматически.
-            string input = Console.ReadLine();
-            double a = double.Parse(input);
-
-            // Это чистая логика, скопированная из вашего метода Calculate()
-            double expression = (2 * a + Math.Sin(Math.Abs(3 * a))) / 3.56;
-
-            if (expression < 0)
-            {
-                // Если система ожидает какой-то вывод в случае ошибки, укажите его здесь.
-                // Если нет - можно оставить пустым или вывести 0.
-            }
-            else
-            {
-                double x = Math.Sqrt(expression);
-                // Правило 5: Округляем до того количества знаков, которое указано в задании
-                double roundedX = Math.Round(x, 3);
-                Console.WriteLine(roundedX);
-            }
+            // Если система ожидает какой-то вывод в случае ошибки, укажите его здесь.
+            // Если нет - можно оставить пустым или вывести 0.
+        }
+        else
+        {
+            double x = Math.Sqrt(expression);
+            // Правило 5: Округляем до того количества знаков, которое указано в задании
+            double roundedX = Math.Round(x, 3);
+            Console.WriteLine(roundedX);
         }
     }
 }
