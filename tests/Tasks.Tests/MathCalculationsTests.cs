@@ -5,42 +5,47 @@ namespace Tasks.Tests
 {
     public class MathCalculationsTests
     {
-        [Fact]
-        public void Calculate_WithPositiveInput_ReturnsCorrectValue()
+        public static IEnumerable<object[]> GetSolutions()
         {
-            var calculator = new MathCalculations.MathCalculations();
+            yield return new object[] { new Tasks.MathCalculations.MathCalculations() };
+        }
+
+        [Theory]
+        [MemberData(nameof(GetSolutions))]
+        public void Calculate_WithPositiveInput_ReturnsCorrectValue(IMathCalculationsSolution solution)
+        {
             double a = 5;
             double expected = 1.730;
 
-            double actual = calculator.Calculate(a);
+            double actual = solution.Calculate(a);
 
             Assert.Equal(expected, actual);
         }
 
-        [Fact]
-        public void Calculate_WithInputCausingNegativeSqrt_ReturnsNaN()
+        [Theory]
+        [MemberData(nameof(GetSolutions))]
+        public void Calculate_WithInputCausingNegativeSqrt_ReturnsNaN(IMathCalculationsSolution solution)
         {
             // Arrange
-            var calculator = new MathCalculations.MathCalculations();
             double a = -10;
 
             // Act
-            double actual = calculator.Calculate(a);
+            double actual = solution.Calculate(a);
 
             // Assert
-            Assert.True(double.IsNaN(actual)); 
+            Assert.True(double.IsNaN(actual));
         }
 
-        [Fact]
-        public void Calculate_WithZeroInput_ReturnsZero()
+        [Theory]
+        [MemberData(nameof(GetSolutions))]
+        public void Calculate_WithZeroInput_ReturnsZero(IMathCalculationsSolution solution)
         {
             // Arrange
-            var calculator = new MathCalculations.MathCalculations();
             double a = 0;
             double expected = 0;
 
             // Act
-            double actual = calculator.Calculate(a);
+            double actual = solution.Calculate(a);
 
             // Assert
             Assert.Equal(expected, actual);

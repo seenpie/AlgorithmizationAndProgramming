@@ -4,6 +4,6 @@ namespace Tasks.MathCalculations
 {
     public interface IMathCalculationsSolution : ISolution
     {
-        double Calculate(double a, double b);
+        double Calculate(double a);
     }
 }

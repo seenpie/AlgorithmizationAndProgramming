@@ -4,7 +4,7 @@ using Tasks.Common;
 
 namespace Tasks.MathCalculations
 {
-    public class MathCalculations : ISolution
+    public class MathCalculations : IMathCalculationsSolution
     {
         public void Run()
         {
