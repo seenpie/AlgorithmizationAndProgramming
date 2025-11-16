@@ -36,6 +36,7 @@
     <ProjectReference Include="..\..\src\Tasks\BronzeDigitsCount\Tasks.BronzeDigitsCount.csproj" />
     <ProjectReference Include="..\..\src\Tasks\FlatCount\Tasks.FlatCount.csproj" />
     <ProjectReference Include="..\..\src\Tasks\MathCalculations2\Tasks.MathCalculations2.csproj" />
+    <ProjectReference Include="..\..\src\Tasks\ClockFace\Tasks.ClockFace.csproj" />
   </ItemGroup>
 
 </Project>
