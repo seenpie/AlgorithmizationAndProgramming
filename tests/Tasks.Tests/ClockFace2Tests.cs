@@ -23,11 +23,14 @@ namespace Tasks.Tests
         public void Calculate_WithValidInput_ReturnsCorrectAngle(double hourAngle, double expected)
         {
             var solution = new Tasks.ClockFace2.ClockFace2();
+            var altSolution = new Tasks.ClockFace2.ClockFace2Alternative();
             // Act
             double result = solution.Calculate(hourAngle);
+            double altResult = altSolution.Calculate(hourAngle);
 
             // Assert
             Assert.Equal(expected, result);
+            Assert.Equal(expected, altResult);
         }
 
         [Theory]
