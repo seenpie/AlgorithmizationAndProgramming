@@ -9,6 +9,7 @@
     <ProjectReference Include="..\Tasks\ClockFace\Tasks.ClockFace.csproj" />
     <ProjectReference Include="..\Tasks\ClockFace2\Tasks.ClockFace2.csproj" />
     <ProjectReference Include="..\Tasks\RomeNumbers\Tasks.RomeNumbers.csproj" />
+    <ProjectReference Include="..\Tasks\GraphOfTheFunction\Tasks.GraphOfTheFunction.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
