@@ -23,9 +23,9 @@ namespace Tasks.GraphOfTheFunction
 
             if (absX % 2 == 0) return 0;
 
-            if ((int)absX % 2 != 0) return Math.Round(1 - remainder, 1);
+            if (Math.Floor(absX) % 2 != 0) return 1 - remainder;
 
-            return Math.Round(remainder, 1);
+            return remainder;
         }
     }
 }
