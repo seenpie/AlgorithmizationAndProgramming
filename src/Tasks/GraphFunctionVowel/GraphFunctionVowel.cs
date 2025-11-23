@@ -12,7 +12,7 @@ namespace Tasks.GraphFunctionVowel
             string input = Console.ReadLine();
             double x = double.Parse(input);
             double f = F(x);
-            Console.WriteLine(x);
+            Console.WriteLine("{0:F4}", f);
         }
 
         public double F(double x)
