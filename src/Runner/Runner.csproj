@@ -11,6 +11,7 @@
     <ProjectReference Include="..\Tasks\RomeNumbers\Tasks.RomeNumbers.csproj" />
     <ProjectReference Include="..\Tasks\GraphFunctionConsonat\Tasks.GraphFunctionConsonat.csproj" />
     <ProjectReference Include="..\Tasks\GraphFunctionVowel\Tasks.GraphFunctionVowel.csproj" />
+    <ProjectReference Include="..\Tasks\Boxes\Tasks.Boxes.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
