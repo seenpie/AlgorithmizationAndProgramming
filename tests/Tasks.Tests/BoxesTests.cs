@@ -40,6 +40,10 @@ namespace Tasks.Tests
             
             // 7. Проверка Double (с точкой)
             yield return new object[] { solution, 1.5, 2.5, 3.5, 1.5, 2.5, 3.5, true };
+
+            yield return new object[] { solution, 2.5, 3.5, 7.8, 8.1, 4, 3.1, true };
+
+            yield return new object[] { solution, 4, 2, 8, 10, 6, 6, true };
         }
 
         [Theory]

@@ -21,13 +21,13 @@ namespace Tasks.Boxes
             string b1Input = Console.ReadLine();
             string b2Input = Console.ReadLine();
             string b3Input = Console.ReadLine();
-            if (!(double.TryParse(b1Input, out b1) && double.TryParse(b2Input, out b2) && double.TryParse(b3Input, out c2)))
+            if (!(double.TryParse(b1Input, out a2) && double.TryParse(b2Input, out b2) && double.TryParse(b3Input, out c2)))
             {
                 Console.WriteLine("Incorrect size for mail box");
                 return;
             }
 
-            if (IsBoxFit(a1, b1, c1, b1, b2, c2))
+            if (IsBoxFit(a1, b1, c1, a2, b2, c2))
             {
                 Console.WriteLine("yes");
             }
@@ -41,7 +41,7 @@ namespace Tasks.Boxes
         {
             double max1 = Math.Max(Math.Max(a1, b1), c1);
             double min1 = Math.Min(Math.Min(a1, b1), c1);
-            double mid1 = (a1 + b1 + c1) - max1 - min1;
+            double mid1 = a1 + b1 + c1 - max1 - min1;
 
             double max2 = Math.Max(Math.Max(a2, b2), c2);
             double min2 = Math.Min(Math.Min(a2, b2), c2);
