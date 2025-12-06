@@ -14,6 +14,7 @@
     <ProjectReference Include="..\Tasks\Boxes\Tasks.Boxes.csproj" />
     <ProjectReference Include="..\Tasks\VowelOrConsonant\Tasks.VowelOrConsonant.csproj" />
     <ProjectReference Include="..\Tasks\NumToText\Tasks.NumToText.csproj" />
+    <ProjectReference Include="..\Tasks\BuildTriangle\Tasks.BuildTriangle.csproj" />
     <ProjectReference Include="..\Tasks\TrigonometricFunctions\Tasks.TrigonometricFunctions.csproj" />
   </ItemGroup>
 
