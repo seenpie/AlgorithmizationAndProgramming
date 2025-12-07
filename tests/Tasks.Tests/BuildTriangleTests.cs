@@ -12,6 +12,7 @@ namespace Tasks.Tests
             var solutions = new IBuildTriangleSolution[]
             {
                 new Tasks.BuildTriangle.BuildTriangle(),
+                new Tasks.BuildTriangle.BuildTriangleAlt()
             };
 
             var testPoints = new ((int a, int b, int c), string expected)[]
