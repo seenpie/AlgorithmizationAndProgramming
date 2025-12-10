@@ -18,6 +18,7 @@
     <ProjectReference Include="..\Tasks\BuildTriangle\Tasks.BuildTriangle.csproj" />
     <ProjectReference Include="..\Tasks\TrigonometricFunctions\Tasks.TrigonometricFunctions.csproj" />
     <ProjectReference Include="..\Tasks\WhileInput\Tasks.WhileInput.csproj" />
+    <ProjectReference Include="..\Tasks\ConsoleGraphics\Tasks.ConsoleGraphics.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
