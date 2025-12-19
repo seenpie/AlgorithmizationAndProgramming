@@ -20,6 +20,7 @@
     <ProjectReference Include="..\Tasks\WhileInput\Tasks.WhileInput.csproj" />
     <ProjectReference Include="..\Tasks\ConsoleGraphics\Tasks.ConsoleGraphics.csproj" />
     <ProjectReference Include="..\Tasks\TheLargestClass\Tasks.TheLargestClass.csproj" />
+    <ProjectReference Include="..\Tasks\SegmentsInTheConsole\Tasks.SegmentsInTheConsole.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
