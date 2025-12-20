@@ -46,6 +46,7 @@
     <ProjectReference Include="..\..\src\Tasks\NumToText\Tasks.NumToText.csproj" />
     <ProjectReference Include="..\..\src\Tasks\BuildTriangle\Tasks.BuildTriangle.csproj" />
     <ProjectReference Include="..\..\src\Tasks\TrigonometricFunctions\Tasks.TrigonometricFunctions.csproj" />
+    <ProjectReference Include="..\..\src\Tasks\SegmentsInTheConsole\Tasks.SegmentsInTheConsole.csproj" />
     <ProjectReference Include="..\..\src\Tasks\Numerology\Tasks.Numerology.csproj" />
     <ProjectReference Include="..\..\src\Tasks\TheLargestClass\Tasks.TheLargestClass.csproj" />
   </ItemGroup>
