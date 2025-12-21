@@ -48,18 +48,22 @@ namespace Tasks.Tests
             yield return new object[] { new int[] { 5, 10 }, "-----" };
             yield return new object[] { new int[] { 100, 42 }, new string('-', 100) };
             yield return new object[] { new int[] { 0, 1, 2 }, "Error!" };
-            // yield return new object[] { new int[] { 10, 0, 0 }, "Error!" }; // если валидация по сумме важна
+            yield return new object[] { new int[] { 10, 0, 0 }, "Error!" }; // если валидация по сумме важна
             yield return new object[] { new int[] { 5, 1, 1, 1 }, "-|-|-" };
-            // yield return new object[] { new int[] { 4, 1, 1, 1 }, "Error!" };
-            
+            yield return new object[] { new int[] { 4, 1, 1, 1 }, "Error!" };
+
             // Округление: 1.5 -> 2. Остаток (4-2=2) последнему.
             // 5, [1,1] -> "--|--" (длина 5)
             yield return new object[] { new int[] { 5, 1, 1 }, "--|--" };
 
             yield return new object[] { new int[] { 10, 1, 100 }, "Error!" };
+            yield return new object[] { new int[] { -12, -3, -2, -5 }, "Error!" };
+            yield return new object[] { new int[] { -12, 3, 2, -5 }, "Error!" };
+            yield return new object[] { new int[] { 30, 5, 4, 9, 8, 2 }, "-----|----|--------|-------|--"  };
+            yield return new object[] { new int[] { 30, 5, 4, 9, 8, 1 }, "Error!"  };
 
             // === ТЕСТЫ, КОТОРЫЕ РАНЬШЕ ДАВАЛИ 12 СИМВОЛОВ ===
-            
+
             // 9. Ширина 11, [1, 2, 3]. avail=9. ratio=1.5.
             // Seg 1: 1*1.5=1.5 -> 2 тире. Used=2. Res="--|"
             // Seg 2: 2*1.5=3.0 -> 3 тире. Used=2+3=5. Res="--|---|"
@@ -73,6 +77,8 @@ namespace Tasks.Tests
             // Last: Avail(7) - Used(4) = 3 тире. Res="--|--|---"
             // Итог длина: 2+1+2+1+3 = 9. (Раньше было 8!)
             yield return new object[] { new int[] { 9, 2, 2, 2 }, "--|--|---" };
+            yield return new object[] { new int[] { 10, 1, 1, 1 }, "---|---|--" };
+
         }
     }
 }

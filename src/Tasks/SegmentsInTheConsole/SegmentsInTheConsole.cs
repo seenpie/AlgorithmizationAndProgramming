@@ -23,7 +23,7 @@ namespace Tasks.SegmentsInTheConsole
 
                 for (int i = 0; i < splitInput.Length; i++)
                 {
-                    if (!int.TryParse(splitInput[i], out int intValue))
+                    if (!int.TryParse(splitInput[i], out int intValue) || intValue < 0)
                     {
                         Console.WriteLine($"некорректное значение: {splitInput[i]}\nПопробуйте заново");
                         isValid = false;
@@ -57,24 +57,34 @@ namespace Tasks.SegmentsInTheConsole
             int width = data[0];
             int sum = Math.Abs(data.Sum() - width);
             int segmentsCount = data.Length - 1;
-            int freeIndexes = Math.Abs(width - segmentsCount) + 1;
+            int dividersCount = segmentsCount - 1;
+            int freeSpaces = width - dividersCount;
+            int sumSegmentsWidth = 0;
+
+            if (segmentsCount > freeSpaces || data.Length < 2 || sum == 0) return "Error!";
 
             StringBuilder pic = new StringBuilder();
 
             for (int i = 1; i < data.Length; i++)
             {
-                int segmentWidth = (int)Math.Round((double)data[i] / sum * freeIndexes);
+                double segmentWidth = (double)data[i] * freeSpaces / sum;
+                int roundSegmentWidth = (int)Math.Round(segmentWidth);
 
-                if (segmentWidth == 0 || pic.Length > width) return "Error!";
+                if (i == data.Length - 1)
+                {
+                    roundSegmentWidth = freeSpaces - sumSegmentsWidth;
+                }
 
-                pic.Append(new string(symbol, segmentWidth));
+                sumSegmentsWidth += roundSegmentWidth;
+
+                if (roundSegmentWidth <= 0 || sumSegmentsWidth > freeSpaces) return "Error!";
+
+                pic.Append(new string(symbol, roundSegmentWidth));
 
                 if (i < data.Length - 1) pic.Append(symbolDivider);
             }
 
-            if (pic.Length < width) pic.Append(symbol);
-            if (pic.Length > width) pic.Length--;
-            return pic.ToString();
+            return pic.Length != width ? "Error" : pic.ToString();
         }
     }
 }
