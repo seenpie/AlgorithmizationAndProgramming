@@ -50,6 +50,7 @@
     <ProjectReference Include="..\..\src\Tasks\Numerology\Tasks.Numerology.csproj" />
     <ProjectReference Include="..\..\src\Tasks\TheLargestClass\Tasks.TheLargestClass.csproj" />
     <ProjectReference Include="..\..\src\Tasks\AdditionalTrianglePoint\Tasks.AdditionalTrianglePoint.csproj" />
+    <ProjectReference Include="..\..\src\Tasks\Palindrom\Tasks.Palindrom.csproj" />
   </ItemGroup>
 
 </Project>
