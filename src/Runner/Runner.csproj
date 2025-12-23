@@ -23,6 +23,7 @@
     <ProjectReference Include="..\Tasks\SegmentsInTheConsole\Tasks.SegmentsInTheConsole.csproj" />
     <ProjectReference Include="..\Tasks\Numerology\Tasks.Numerology.csproj" />
     <ProjectReference Include="..\Tasks\AdditionalTrianglePoint\Tasks.AdditionalTrianglePoint.csproj" />
+    <ProjectReference Include="..\Tasks\Palindrom\Tasks.Palindrom.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
