@@ -1,10 +1,11 @@
+﻿
 using System;
 using System.Text;
 using Tasks.Common;
 
 namespace Tasks.SegmentsInTheConsole
 {
-    public class SegmentsInTheConsole : ISegmentsInTheConsoleSolution
+    public class SegmentsInTheConsoleAlt2 : ISegmentsInTheConsoleSolution
     {
         private (string input, int[] parsedInput) GetInput()
         {
@@ -55,36 +56,44 @@ namespace Tasks.SegmentsInTheConsole
             const char symbol = '-';
             const char symbolDivider = '|';
             int width = data[0];
-            int sum = Math.Abs(data.Sum() - width);
+            int sum = data.Skip(1).Sum();
             int segmentsCount = data.Length - 1;
             int dividersCount = segmentsCount - 1;
             int freeSpaces = width - dividersCount;
-            int sumSegmentsWidth = 0;
 
             if (segmentsCount > freeSpaces || data.Length < 2 || sum == 0) return "Error!";
 
-            StringBuilder pic = new StringBuilder();
+            (double fracPart, int dashCount, int order)[] d = new (double, int, int)[data.Length - 1];
+            int baseSum = 0;
 
             for (int i = 1; i < data.Length; i++)
             {
-                double segmentWidth = (double)data[i] * freeSpaces / sum;
-                int roundSegmentWidth = (int)Math.Round(segmentWidth);
-
-                if (i == data.Length - 1)
-                {
-                    roundSegmentWidth = freeSpaces - sumSegmentsWidth;
-                }
-
-                sumSegmentsWidth += roundSegmentWidth;
-
-                if (roundSegmentWidth <= 0 || sumSegmentsWidth > freeSpaces) return "Error!";
-
-                pic.Append(new string(symbol, roundSegmentWidth));
-
-                if (i < data.Length - 1) pic.Append(symbolDivider);
+                double idealWidth = (double)data[i] * freeSpaces / sum;
+                int floorBase = (int)Math.Floor(idealWidth);
+                d[i - 1] = (idealWidth % 1, floorBase, i);
+                baseSum += floorBase;
             }
 
-            return pic.Length != width ? "Error" : pic.ToString();
+            int remainder = freeSpaces - baseSum;
+
+            //сортируем по убыванию дробной части, чтобы сегментам, которые почти дотянули до следующего целого числа выделить тире
+            Array.Sort(d, (a, b) => b.fracPart.CompareTo(a.fracPart));
+
+            for (int i = 0; i < remainder; i++) d[i].dashCount++;
+
+            //отсортировать можно только один раз, если использовать изначально 2 массива только для тире и остатка и создать массив индексов (0..n-1) и отсортировать только его по остаткам 'Array.Sort(indices, (a, b) => fractional[b].CompareTo(fractional[a]));' и в раздаче остатка использовать [indices[i]]
+            Array.Sort(d, (a, b) => a.order.CompareTo(b.order));
+
+            StringBuilder pic = new StringBuilder();
+
+            for (int i = 0; i < d.Length; i++)
+            {
+                if (d[i].dashCount == 0) return "Error!";
+                pic.Append(new string(symbol, d[i].dashCount));
+                if (i < d.Length - 1) pic.Append(symbolDivider);
+            }
+
+            return pic.ToString();
         }
     }
 }
