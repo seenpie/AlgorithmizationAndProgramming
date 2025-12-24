@@ -1,0 +1,10 @@
+services:
+  algorithm-tasks-app:
+    container_name: algorithm-tasks-container-dev
+    build:
+      context: .
+      target: dev
+      dockerfile: dockerfile
+    image: algorithm-tasks-image:dev
+    volumes:
+      - .:/src:Z
