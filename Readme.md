@@ -24,6 +24,32 @@
 
 Принцип работы `Runner`'а (поиск решений с помощью рефлексии) подробно описан в разделе "Обзор архитектуры проекта".
 
+### Запуск через Docker
+
+#### Prod
+
+```bash
+docker compose -f compose.prod.yml build
+# удаление "висячих" образов, будьте аккуратны, если у вас есть другие проекты в docker/podman, уберите из команды ниже -f
+docker image prune -f
+# запуск
+docker compose -f compose.prod.yml run --rm algorithm-tasks-app
+```
+
+>или одной командой
+
+```bash
+docker compose -f compose.prod.yml build && docker image prune -f && docker compose -f compose.prod.yml run --rm algorithm-tasks-app
+```
+
+#### Dev
+```bash
+docker compose up -d
+# заходим в контейнер
+docker exec -it algorithm-tasks-container-dev bash
+# далее согласно основному гайду 'Как запустить проект'
+```
+
 ---
 
 ## Как работать с проектом

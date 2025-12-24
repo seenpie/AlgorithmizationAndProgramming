@@ -1,0 +1,9 @@
+services:
+  algorithm-tasks-app:
+    container_name: algorithm-tasks-container-prod
+    build:
+      context: .
+      target: final
+      dockerfile: dockerfile
+    image: algorithm-tasks-image:prod
+    restart: always
