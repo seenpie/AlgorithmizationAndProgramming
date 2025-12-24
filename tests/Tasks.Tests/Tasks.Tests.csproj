@@ -51,6 +51,7 @@
     <ProjectReference Include="..\..\src\Tasks\TheLargestClass\Tasks.TheLargestClass.csproj" />
     <ProjectReference Include="..\..\src\Tasks\AdditionalTrianglePoint\Tasks.AdditionalTrianglePoint.csproj" />
     <ProjectReference Include="..\..\src\Tasks\Palindrom\Tasks.Palindrom.csproj" />
+    <ProjectReference Include="..\..\src\Tasks\AimShooting\Tasks.AimShooting.csproj" />
   </ItemGroup>
 
 </Project>
