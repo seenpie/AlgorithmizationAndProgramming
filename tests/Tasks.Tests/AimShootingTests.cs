@@ -10,6 +10,7 @@ namespace Tasks.Tests
         public static IEnumerable<object[]> GetSolutions()
         {
             yield return new object[] { new Tasks.AimShooting.AimShooting() };
+            yield return new object[] { new Tasks.AimShooting.AimShootingAlt() };
         }
 
         [Theory]
@@ -56,8 +57,8 @@ namespace Tasks.Tests
             short maxValue = 15;
             short step = 1;
             short maxScore = 10;
-            
-            // X=1.23, Y=0.91 -> Score 9 
+
+            // X=1.23, Y=0.91 -> Score 9
             double x = 1.23;
             double y = 0.91;
             int positiveScore = solution.CalculateScore(x, y, maxValue, step, maxScore);
@@ -122,7 +123,7 @@ namespace Tasks.Tests
         }
 
         // Тесты на основе демо программы (настройки: maxValue=30, step=2, maxScore=12)
-        
+
         [Theory]
         [MemberData(nameof(GetSolutions))]
         public void CalculateScore_DemoShot1_ReturnsMilk(IAimShootingSolution solution)
@@ -211,12 +212,12 @@ namespace Tasks.Tests
             short maxValue = 15;
             short step = 1;
             short maxScore = 10;
-            
+
             double x = 9.5;  // distance = 9.5, ring = 10, score = 10-10+1 = 1
             double y = 0;
-            
+
             int score = solution.CalculateScore(x, y, maxValue, step, maxScore);
-            
+
             Assert.Equal(1, score);
         }
 
@@ -228,10 +229,10 @@ namespace Tasks.Tests
             short maxValue = 15;
             short step = 1;
             short maxScore = 10;
-            
+
             // Чуть внутри последнего кольца: distance = 9.99 -> ring = 10 -> score = 1
             Assert.Equal(1, solution.CalculateScore(9.99, 0, maxValue, step, maxScore));
-            
+
             // Чуть за границей последнего кольца: distance = 10.01 -> ring = 11 -> milk
             Assert.Equal(0, solution.CalculateScore(10.01, 0, maxValue, step, maxScore));
         }
@@ -244,21 +245,21 @@ namespace Tasks.Tests
             short maxValue = 15;
             short step = 1;
             short maxScore = 10;
-            
+
             double x = 3.0;
             double y = 4.0;  // distance = 5.0, ring = 5, score = 6
-            
+
             int expectedScore = 6;
-            
+
             // Первый квадрант (+, +)
             Assert.Equal(expectedScore, solution.CalculateScore(x, y, maxValue, step, maxScore));
-            
+
             // Второй квадрант (-, +)
             Assert.Equal(expectedScore, solution.CalculateScore(-x, y, maxValue, step, maxScore));
-            
+
             // Третий квадрант (-, -)
             Assert.Equal(expectedScore, solution.CalculateScore(-x, -y, maxValue, step, maxScore));
-            
+
             // Четвертый квадрант (+, -)
             Assert.Equal(expectedScore, solution.CalculateScore(x, -y, maxValue, step, maxScore));
         }
@@ -271,14 +272,14 @@ namespace Tasks.Tests
             short maxValue = 15;
             short step = 1;
             short maxScore = 10;
-            
+
             // Пифагоров треугольник: 3-4-5
             double x = 3.0;
             double y = 4.0;
             // distance = 5.0, ring = 5, score = 10 - 5 + 1 = 6
-            
+
             int score = solution.CalculateScore(x, y, maxValue, step, maxScore);
-            
+
             Assert.Equal(6, score);
         }
 
@@ -290,7 +291,7 @@ namespace Tasks.Tests
             short maxValue = 30;
             short step = 2;
             short maxScore = 12;
-            
+
             var shots = new[]
             {
                 (x: -10.33, y: 22.18, expectedScore: 0),
@@ -299,22 +300,22 @@ namespace Tasks.Tests
                 (x: -2.23, y: 0.69, expectedScore: 11),
                 (x: 0.13, y: -0.14, expectedScore: 12)
             };
-            
+
             int totalScore = 0;
-            
+
             foreach (var shot in shots)
             {
                 int score = solution.CalculateScore(shot.x, shot.y, maxValue, step, maxScore);
                 Assert.Equal(shot.expectedScore, score);
                 totalScore += score;
             }
-            
+
             // Проверяем итоговый счет: 0 + 11 + 0 + 11 + 12 = 34
             Assert.Equal(34, totalScore);
         }
 
         // Математические тесты - проверка всех колец
-        
+
         [Theory]
         [MemberData(nameof(GetSolutions))]
         public void CalculateScore_AllRingBoundaries_DefaultSettings(IAimShootingSolution solution)
@@ -323,26 +324,26 @@ namespace Tasks.Tests
             short maxValue = 15;
             short step = 1;
             short maxScore = 10;
-            
+
             // Кольцо 1 (radius 0-1): 10 очков
             Assert.Equal(10, solution.CalculateScore(0.0, 0.0, maxValue, step, maxScore));
             Assert.Equal(10, solution.CalculateScore(0.99, 0.0, maxValue, step, maxScore));
-            
+
             // Кольцо 2 (radius 1-2): 9 очков
             Assert.Equal(9, solution.CalculateScore(1.01, 0.0, maxValue, step, maxScore));
             Assert.Equal(9, solution.CalculateScore(1.99, 0.0, maxValue, step, maxScore));
-            
+
             // Кольцо 3 (radius 2-3): 8 очков
             Assert.Equal(8, solution.CalculateScore(2.01, 0.0, maxValue, step, maxScore));
             Assert.Equal(8, solution.CalculateScore(2.99, 0.0, maxValue, step, maxScore));
-            
+
             // Кольцо 5 (radius 4-5): 6 очков
             Assert.Equal(6, solution.CalculateScore(4.5, 0.0, maxValue, step, maxScore));
-            
+
             // Кольцо 10 (radius 9-10): 1 очко
             Assert.Equal(1, solution.CalculateScore(9.01, 0.0, maxValue, step, maxScore));
             Assert.Equal(1, solution.CalculateScore(9.99, 0.0, maxValue, step, maxScore));
-            
+
             // Молоко (radius > 10)
             Assert.Equal(0, solution.CalculateScore(10.01, 0.0, maxValue, step, maxScore));
             Assert.Equal(0, solution.CalculateScore(15.0, 0.0, maxValue, step, maxScore));
@@ -356,23 +357,23 @@ namespace Tasks.Tests
             short maxValue = 30;
             short step = 2;
             short maxScore = 12;
-            
+
             // Кольцо 1 (radius 0-2): 12 очков
             Assert.Equal(12, solution.CalculateScore(0.0, 0.0, maxValue, step, maxScore));
             Assert.Equal(12, solution.CalculateScore(1.99, 0.0, maxValue, step, maxScore));
-            
+
             // Кольцо 2 (radius 2-4): 11 очков
             Assert.Equal(11, solution.CalculateScore(2.01, 0.0, maxValue, step, maxScore));
             Assert.Equal(11, solution.CalculateScore(3.99, 0.0, maxValue, step, maxScore));
-            
+
             // Кольцо 3 (radius 4-6): 10 очков
             Assert.Equal(10, solution.CalculateScore(4.01, 0.0, maxValue, step, maxScore));
             Assert.Equal(10, solution.CalculateScore(5.99, 0.0, maxValue, step, maxScore));
-            
+
             // Кольцо 12 (radius 22-24): 1 очко
             Assert.Equal(1, solution.CalculateScore(22.01, 0.0, maxValue, step, maxScore));
             Assert.Equal(1, solution.CalculateScore(23.99, 0.0, maxValue, step, maxScore));
-            
+
             // Молоко (radius > 24)
             Assert.Equal(0, solution.CalculateScore(24.01, 0.0, maxValue, step, maxScore));
         }
@@ -385,12 +386,12 @@ namespace Tasks.Tests
             short maxValue = 15;
             short step = 1;
             short maxScore = 10;
-            
+
             double x = 2.5;
             double y = 3.5;
-            
+
             int expectedScore = solution.CalculateScore(x, y, maxValue, step, maxScore);
-            
+
             // Все 8 комбинаций (включая 0)
             Assert.Equal(expectedScore, solution.CalculateScore(x, y, maxValue, step, maxScore));
             Assert.Equal(expectedScore, solution.CalculateScore(-x, y, maxValue, step, maxScore));
@@ -410,16 +411,16 @@ namespace Tasks.Tests
             short maxValue = 15;
             short step = 1;
             short maxScore = 10;
-            
+
             // 3-4-5: distance = 5, ring = 5, score = 6
             Assert.Equal(6, solution.CalculateScore(3.0, 4.0, maxValue, step, maxScore));
-            
+
             // 5-12-13: distance = 13, ring = 13, score = 0 (молоко)
             Assert.Equal(0, solution.CalculateScore(5.0, 12.0, maxValue, step, maxScore));
-            
+
             // 6-8-10: distance = 10, ring = 10, score = 1
             Assert.Equal(1, solution.CalculateScore(6.0, 8.0, maxValue, step, maxScore));
-            
+
             // 8-15-17: distance = 17, score = 0 (молоко)
             Assert.Equal(0, solution.CalculateScore(8.0, 15.0, maxValue, step, maxScore));
         }
@@ -432,7 +433,7 @@ namespace Tasks.Tests
             short maxValue = 15;
             short step = 1;
             short maxScore = 10;
-            
+
             Assert.Equal(10, solution.CalculateScore(0.001, 0.001, maxValue, step, maxScore));
             Assert.Equal(10, solution.CalculateScore(0.01, 0.01, maxValue, step, maxScore));
             Assert.Equal(10, solution.CalculateScore(0.1, 0.1, maxValue, step, maxScore));
@@ -447,22 +448,22 @@ namespace Tasks.Tests
             short maxValue = 15;
             short step = 5;
             short maxScore = 2;
-            
+
             // Кольцо 1 (radius 0-5): 2 очка
             Assert.Equal(2, solution.CalculateScore(0.0, 0.0, maxValue, step, maxScore));
             Assert.Equal(2, solution.CalculateScore(4.99, 0.0, maxValue, step, maxScore));
-            
+
             // Кольцо 2 (radius 5-10): 1 очко
             Assert.Equal(1, solution.CalculateScore(5.01, 0.0, maxValue, step, maxScore));
             Assert.Equal(1, solution.CalculateScore(7.0, 0.0, maxValue, step, maxScore));
             Assert.Equal(1, solution.CalculateScore(9.99, 0.0, maxValue, step, maxScore));
-            
+
             // Молоко (radius > 10)
             Assert.Equal(0, solution.CalculateScore(10.01, 0.0, maxValue, step, maxScore));
         }
 
         // Тесты на основе реальных выстрелов из Теста 5 (настройки: maxValue=15, step=5, maxScore=2)
-        
+
         [Theory]
         [MemberData(nameof(GetSolutions))]
         public void CalculateScore_RealDemoTest5_Shot1_Returns2Points(IAimShootingSolution solution)
@@ -525,29 +526,29 @@ namespace Tasks.Tests
             short maxValue = 15;
             short step = 5;
             short maxScore = 2;
-            
+
             var shots = new[]
             {
                 (x: 0.74, y: -0.55, expectedScore: 2),
                 (x: 6.69, y: 7.84, expectedScore: 0),
                 (x: -2.35, y: -1.78, expectedScore: 2)
             };
-            
+
             int totalScore = 0;
-            
+
             foreach (var shot in shots)
             {
                 int score = solution.CalculateScore(shot.x, shot.y, maxValue, step, maxScore);
                 Assert.Equal(shot.expectedScore, score);
                 totalScore += score;
             }
-            
+
             // Проверяем итоговый счет: 2 + 0 + 2 = 4
             Assert.Equal(4, totalScore);
         }
 
         // Тесты на основе реальных выстрелов из демо программы (стандартные настройки)
-        
+
         [Theory]
         [MemberData(nameof(GetSolutions))]
         public void CalculateScore_RealDemoShot1_Returns9Points(IAimShootingSolution solution)
@@ -646,7 +647,7 @@ namespace Tasks.Tests
             short maxValue = 15;
             short step = 1;
             short maxScore = 10;
-            
+
             var shots = new[]
             {
                 (x: 1.00, y: 1.20, expectedScore: 9),
@@ -655,22 +656,22 @@ namespace Tasks.Tests
                 (x: 9.19, y: 6.29, expectedScore: 0),
                 (x: 8.90, y: 11.68, expectedScore: 0)
             };
-            
+
             int totalScore = 0;
-            
+
             foreach (var shot in shots)
             {
                 int score = solution.CalculateScore(shot.x, shot.y, maxValue, step, maxScore);
                 Assert.Equal(shot.expectedScore, score);
                 totalScore += score;
             }
-            
+
             // Проверяем итоговый счет: 9 + 4 + 1 + 0 + 0 = 14
             Assert.Equal(14, totalScore);
         }
 
         // Тесты на основе реальных выстрелов из Теста 2 (настройки: maxValue=30, step=2, maxScore=12)
-        
+
         [Theory]
         [MemberData(nameof(GetSolutions))]
         public void CalculateScore_RealDemoTest2v2_Shot1_Returns12Points(IAimShootingSolution solution)
@@ -805,7 +806,7 @@ namespace Tasks.Tests
             short maxValue = 30;
             short step = 2;
             short maxScore = 12;
-            
+
             var shots = new[]
             {
                 (x: -0.11, y: 1.89, expectedScore: 12),
@@ -816,22 +817,22 @@ namespace Tasks.Tests
                 (x: 12.24, y: 11.10, expectedScore: 4),
                 (x: -24.44, y: 18.45, expectedScore: 0)
             };
-            
+
             int totalScore = 0;
-            
+
             foreach (var shot in shots)
             {
                 int score = solution.CalculateScore(shot.x, shot.y, maxValue, step, maxScore);
                 Assert.Equal(shot.expectedScore, score);
                 totalScore += score;
             }
-            
+
             // Проверяем итоговый счет: 12 + 12 + 1 + 4 + 10 + 4 + 0 = 43
             Assert.Equal(43, totalScore);
         }
 
         // Тесты на основе реальных выстрелов из Теста 4 (стандартные настройки: 15, 1, 10)
-        
+
         [Theory]
         [MemberData(nameof(GetSolutions))]
         public void CalculateScore_RealDemoTest4_Shot1_Returns5Points(IAimShootingSolution solution)
@@ -912,7 +913,7 @@ namespace Tasks.Tests
             short maxValue = 15;
             short step = 1;
             short maxScore = 10;
-            
+
             var shots = new[]
             {
                 (x: -5.17, y: -2.57, expectedScore: 5),
@@ -920,22 +921,22 @@ namespace Tasks.Tests
                 (x: -11.98, y: -4.64, expectedScore: 0),
                 (x: -0.41, y: -4.30, expectedScore: 6)
             };
-            
+
             int totalScore = 0;
-            
+
             foreach (var shot in shots)
             {
                 int score = solution.CalculateScore(shot.x, shot.y, maxValue, step, maxScore);
                 Assert.Equal(shot.expectedScore, score);
                 totalScore += score;
             }
-            
+
             // Проверяем итоговый счет: 5 + 6 + 0 + 6 = 17
             Assert.Equal(17, totalScore);
         }
 
         // Тесты на основе реальных выстрелов из Теста 3 (стандартные настройки: 15, 1, 10)
-        
+
         [Theory]
         [MemberData(nameof(GetSolutions))]
         public void CalculateScore_RealDemoTest3_Shot1_ReturnsMilk(IAimShootingSolution solution)
@@ -999,23 +1000,23 @@ namespace Tasks.Tests
             short maxValue = 15;
             short step = 1;
             short maxScore = 10;
-            
+
             var shots = new[]
             {
                 (x: 6.41, y: 8.26, expectedScore: 0),
                 (x: -0.72, y: -0.20, expectedScore: 10),
                 (x: 8.10, y: 6.87, expectedScore: 0)
             };
-            
+
             int totalScore = 0;
-            
+
             foreach (var shot in shots)
             {
                 int score = solution.CalculateScore(shot.x, shot.y, maxValue, step, maxScore);
                 Assert.Equal(shot.expectedScore, score);
                 totalScore += score;
             }
-            
+
             // Проверяем итоговый счет: 0 + 10 + 0 = 10
             Assert.Equal(10, totalScore);
         }
