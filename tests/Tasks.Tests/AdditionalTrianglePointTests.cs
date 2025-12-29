@@ -15,6 +15,7 @@ namespace Tasks.Tests
         public static IEnumerable<object[]> GetSolutions()
         {
             yield return new object[] { new Tasks.AdditionalTrianglePoint.AdditionalTrianglePoint() };
+            yield return new object[] { new Tasks.AdditionalTrianglePoint.AdditionalTrianglePointAlt() };
         }
 
         /// <summary>
@@ -185,26 +186,26 @@ namespace Tasks.Tests
         {
             // Координаты int, но при расчете площади (векторного произведения)
             // значения могут превысить int.MaxValue. Решение должно использовать long/double внутри.
-            
+
             int large = 1_000_000_000; // 1 миллиард
             // Треугольник огромного размера
             var a = P(0, 0);
             var b = P(large, 0);
             var c = P(0, large);
-            
+
             // Точка внутри
             var p = P(100, 100);
 
             Assert.Equal(RES_INSIDE, solution.Solve(a, b, c, p));
         }
-        
+
         [Theory]
         [MemberData(nameof(GetSolutions))]
         public void Solve_LargeCoordinates_CollinearCheck_ReturnsInvalid(IAdditionalTrianglePointSolution solution)
         {
             // Проверка детерминанта на переполнение при проверке коллинеарности
-            int large = 2000000000; 
-            
+            int large = 2000000000;
+
             // Точки на одной линии с огромным шагом
             var a = P(0, 0);
             var b = P(large/2, large/2);
