@@ -25,6 +25,7 @@
     <ProjectReference Include="..\Tasks\AdditionalTrianglePoint\Tasks.AdditionalTrianglePoint.csproj" />
     <ProjectReference Include="..\Tasks\Palindrom\Tasks.Palindrom.csproj" />
     <ProjectReference Include="..\Tasks\AimShooting\Tasks.AimShooting.csproj" />
+    <ProjectReference Include="..\Tasks\FilesList\Tasks.FilesList.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
