@@ -10,6 +10,7 @@ namespace Tasks.Tests
         public static IEnumerable<object[]> GetSolutions()
         {
             yield return new object[] { new Tasks.Palindrom.Palindrom() };
+            yield return new object[] { new Tasks.Palindrom.PalindromAlt() };
         }
 
         [Theory]
@@ -74,7 +75,7 @@ namespace Tasks.Tests
         {
             // Arrange
             // Задача предполагает, что Радар == true, значит регистр не важен
-            string input = "RaDaR"; 
+            string input = "RaDaR";
 
             // Act
             bool result = solution.IsPalindrom(input);
@@ -117,7 +118,7 @@ namespace Tasks.Tests
         {
             // Arrange
             // Почти палиндром, но последний символ отличается
-            string input = "abbx"; 
+            string input = "abbx";
 
             // Act
             bool result = solution.IsPalindrom(input);
@@ -125,7 +126,7 @@ namespace Tasks.Tests
             // Assert
             Assert.False(result);
         }
-        
+
         [Theory]
         [MemberData(nameof(GetSolutions))]
         public void IsPalindrom_WithSpacesButNotPalindrome_ReturnsFalse(IPalindromSolution solution)
