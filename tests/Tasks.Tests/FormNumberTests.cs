@@ -14,6 +14,7 @@ namespace Tasks.Tests
         {
             // Сюда подставится твоя реализация
             yield return new object[] { new Tasks.FormNumber.FormNumber() };
+            // yield return new object[] { new FormNumberAlt() };
         }
 
         #region Тесты из ТЗ (Точное совпадение)
@@ -25,12 +26,12 @@ namespace Tasks.Tests
             // Входные: num = 25; a = 3; b = 4
             // Ожидаем: *4 *4 +3 +3 +3 (с возможными пробелами)
             // Логика: 1 *4=4 -> *4=16 -> +3=19 -> +3=22 -> +3=25
-            
+
             var result = solution.FindPathToNumber(25, 3, 4);
 
             // Проверяем математику
             AssertCalculationLogic(25, 3, 4, result);
-            
+
             // Проверяем формат строки (обрезаем крайние пробелы для надежности)
             // Ожидается "*4 *4 +3 +3 +3"
             Assert.Contains("*4 *4 +3 +3 +3", result.Trim());
@@ -57,7 +58,7 @@ namespace Tasks.Tests
             var result = solution.FindPathToNumber(50, 7, 5);
 
             AssertCalculationLogic(50, 7, 5, result);
-            
+
             // Если реализация добавляет пробел в начале, Trim() это обработает
             Assert.Equal("+7 +7 +7 +7 +7 +7 +7", result.Trim());
         }
@@ -82,7 +83,7 @@ namespace Tasks.Tests
         {
             // 1 * 10 = 10
             var result = solution.FindPathToNumber(10, 2, 10);
-            
+
             Assert.Contains("*10", result);
             AssertCalculationLogic(10, 2, 10, result);
         }
@@ -96,9 +97,9 @@ namespace Tasks.Tests
             // Рекурсия обычно находит кратчайший путь или первый подходящий.
             // Ожидаем "*100"
             var result = solution.FindPathToNumber(100, 1, 100);
-            
+
             Assert.Contains("*100", result);
-            Assert.DoesNotContain("+1 +1", result); 
+            Assert.DoesNotContain("+1 +1", result);
         }
 
         [Theory]
@@ -108,7 +109,7 @@ namespace Tasks.Tests
             // Цель 11. a=2, b=3.
             // Путь: 1 -> *3 (3) -> *3 (9) -> +2 (11).
             var result = solution.FindPathToNumber(11, 2, 3);
-            
+
             AssertCalculationLogic(11, 2, 3, result);
             // Проверим порядок операций
             Assert.Matches(@"\*3\s*\*3\s*\+2", result.Trim());
@@ -125,7 +126,7 @@ namespace Tasks.Tests
             // Цель 2. a=5, b=5.
             // Из 1 можно получить сразу 6 или 5. 2 пропускаем.
             var result = solution.FindPathToNumber(2, 5, 5);
-            
+
             Assert.Equal(ImpossibleMsg, result);
         }
 
@@ -135,22 +136,22 @@ namespace Tasks.Tests
         {
             // Цель: 4 (четное).
             // a=2, b=6.
-            // Старт 1 (нечет). 
+            // Старт 1 (нечет).
             // 1 + 2 = 3 (нечет). 3 + 2 = 5... Всегда нечетные при сложении.
             // 1 * 6 = 6 (чет), но перепрыгнули 4.
             // Получить 4 невозможно.
             var result = solution.FindPathToNumber(4, 2, 6);
-            
+
             Assert.Equal(ImpossibleMsg, result);
         }
-        
+
         [Theory]
         [MemberData(nameof(GetSolutions))]
         public void FindPathToNumber_Impossible_TargetIsZero(IFormNumberSolution solution)
         {
             // Цель 0. С помощью сложения и умножения (a,b > 0) из 1 не получить 0.
             var result = solution.FindPathToNumber(0, 3, 3);
-            
+
             Assert.Equal(ImpossibleMsg, result);
         }
 
@@ -167,7 +168,7 @@ namespace Tasks.Tests
             // Правильный путь: сначала сложить, потом умножить.
             // 1 + 6 = 7 -> 7 * 2 = 14.
             var result = solution.FindPathToNumber(14, 6, 2);
-            
+
             AssertCalculationLogic(14, 6, 2, result);
             Assert.Contains("+6 *2", result.Trim()); // Здесь порядок важен для оптимальности
         }
@@ -181,7 +182,7 @@ namespace Tasks.Tests
             // Правильный путь:
             // 1 * 2 = 2 -> 2 + 8 = 10.
             var result = solution.FindPathToNumber(10, 8, 2);
-            
+
             AssertCalculationLogic(10, 8, 2, result);
             Assert.Contains("*2 +8", result.Trim());
         }
@@ -208,7 +209,7 @@ namespace Tasks.Tests
             // 1 * 50 = 50 -> *50 = 2500 (Мимо)
             // Но: 1 * 50 = 50 -> + 50 = 100 (Попали!)
             var result = solution.FindPathToNumber(100, 50, 50);
-            
+
             AssertCalculationLogic(100, 50, 50, result);
             Assert.Contains("*50 +50", result.Trim());
         }
@@ -222,10 +223,10 @@ namespace Tasks.Tests
             // Единственный путь - 14 раз прибавить 1.
             // Это проверяет, что рекурсия не падает слишком рано.
             var result = solution.FindPathToNumber(15, 1, 100);
-            
+
             AssertCalculationLogic(15, 1, 100, result);
             // В строке должно быть много "+1"
-            Assert.Contains("+1 +1", result); 
+            Assert.Contains("+1 +1", result);
         }
 
         [Theory]
@@ -242,7 +243,7 @@ namespace Tasks.Tests
             // Цель 11 имеет остаток 2 (11 % 3 == 2).
             // Получить 11 невозможно.
             var result = solution.FindPathToNumber(11, 3, 3);
-            
+
             Assert.Equal(ImpossibleMsg, result);
         }
 
@@ -255,11 +256,11 @@ namespace Tasks.Tests
             // 1 * 1 = 1 (бесполезная операция, потенциальный бесконечный цикл, если не обработать).
             // Решение только через сложение: 1 -> +2 -> 3 -> +2 -> 5.
             var result = solution.FindPathToNumber(5, 2, 1);
-            
+
             AssertCalculationLogic(5, 2, 1, result);
             Assert.Contains("+2 +2", result.Trim());
             // Убедимся, что нет бессмысленных умножений на 1
-            Assert.DoesNotContain("*1", result); 
+            Assert.DoesNotContain("*1", result);
         }
 
         [Theory]
@@ -290,7 +291,7 @@ namespace Tasks.Tests
         public void Test_Corner_B_IsZero(IFormNumberSolution solution)
         {
             // Кейс: b = 0. Умножение на 0 превращает число в 0.
-            // Из 0 (через +a, где a > 0) выбраться можно, теоретически, 
+            // Из 0 (через +a, где a > 0) выбраться можно, теоретически,
             // но обычно в таких задачах путь 1 -> 0 считается тупиком, так как num > 0.
             // Цель 7. a=2, b=0.
             // Путь: 1 +2=3 +2=5 +2=7. (Умножение убивает ветку).
@@ -336,10 +337,10 @@ namespace Tasks.Tests
         {
             // Цель = 1. Старт = 1.
             // Никаких действий не требуется.
-            // Должна вернуться пустая строка (или null, в зависимости от реализации, 
+            // Должна вернуться пустая строка (или null, в зависимости от реализации,
             // но обычно пустая строка для совместимости с AssertCalculationLogic).
             var result = solution.FindPathToNumber(1, 5, 5);
-            
+
             // Либо пусто, либо пробелы
             Assert.True(string.IsNullOrWhiteSpace(result), $"Ожидалась пустая строка, получено: '{result}'");
         }
@@ -364,7 +365,7 @@ namespace Tasks.Tests
             // Придется сделать 199 операций сложения +1.
             // Это проверяет, выдержит ли стек такую глубину.
             var result = solution.FindPathToNumber(200, 1, 2000);
-            
+
             AssertCalculationLogic(200, 1, 2000, result);
             // Простая проверка, что строка длинная
             Assert.True(result.Length > 100, "Строка решения должна быть длинной для 199 сложений");
@@ -376,14 +377,14 @@ namespace Tasks.Tests
         {
             // Цель 17 (простое число). a=2, b=3.
             // Множители не помогут попасть ровно в 17 напрямую делением.
-            // Сложный путь: 
-            // 1 *3=3 *3=9 *2(нет) ... 
+            // Сложный путь:
+            // 1 *3=3 *3=9 *2(нет) ...
             // 1 +2=3 +2=5 +2=7 *3=21 (перелет)
             // 1+2=3, 3*3=9, 9+2+2+2+2 = 17 (долго)
             // или 1*3=3, 3*3=9, 9+2=11, 11+2=13, 13+2=15, 15+2=17.
             // Главное - найти хоть какой-то путь.
             var result = solution.FindPathToNumber(17, 2, 3);
-            
+
             AssertCalculationLogic(17, 2, 3, result);
         }
 
@@ -397,7 +398,7 @@ namespace Tasks.Tests
             // 1 + 99 = 100 (1 шаг)
             // Оба решения валидны. Тест должен принять любое валидное.
             var result = solution.FindPathToNumber(100, 99, 100);
-            
+
             AssertCalculationLogic(100, 99, 100, result);
             // Либо паc, либо паc
             bool isAdd = result.Contains("+99");
@@ -446,9 +447,9 @@ namespace Tasks.Tests
 
             // Разбиваем по пробелам, игнорируя пустые элементы (решает проблему " +7 +7")
             var operations = output.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            
+
             long current = 1; // используем long во избежание переполнения при проверке промежуточных
-            
+
             foreach (var op in operations)
             {
                 if (op.StartsWith($"*{b}"))
