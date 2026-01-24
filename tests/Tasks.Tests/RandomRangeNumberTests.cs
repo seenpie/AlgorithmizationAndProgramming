@@ -11,6 +11,7 @@ namespace Tasks.Tests
         public static IEnumerable<object[]> GetSolutions()
         {
             yield return new object[] { new Tasks.RandomRangeNumber.RandomRangeNumber() };
+            yield return new object[] { new RandomRangeNumberAlt() };
         }
 
         // --- БАЗОВЫЕ ПРОВЕРКИ ---
@@ -66,9 +67,9 @@ namespace Tasks.Tests
         {
             // Корнер кейс: работа с самыми большими числами uint
             // Диапазон: [Max-10, Max], d = 1
-            // Это проверка того, что внутри формулы (min + ...), не происходит переполнения, 
+            // Это проверка того, что внутри формулы (min + ...), не происходит переполнения,
             // которое выбросило бы ошибку или вернуло 0.
-            
+
             uint max = uint.MaxValue;       // 4,294,967,295
             uint min = uint.MaxValue - 10;
             uint d = 1;
@@ -103,7 +104,7 @@ namespace Tasks.Tests
             // Тест на то, что работает именно рандом, а не всегда возвращается первое число.
             // Диапазон [10, 20], d = 5. Варианты: {10, 15, 20}.
             // Если мы вызовем метод 100 раз, крайне маловероятно, что мы получим только одно число.
-            
+
             uint d = 5;
             uint min = 10;
             uint max = 20;
